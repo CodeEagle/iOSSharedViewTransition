@@ -49,7 +49,7 @@
     if (!_arrParamHolders) {
         _arrParamHolders = [[NSMutableArray alloc] init];
     }
-    
+
     return _arrParamHolders;
 }
 
@@ -63,13 +63,13 @@
         }
         else if (holder.fromVCClass == [toVC class] && holder.toVCClass == [fromVC class]) {
             pHolder = holder;
-            
+
             if (reversed) {
                 *reversed = true;
             }
         }
     }
-    
+
     return pHolder;
 }
 
@@ -86,19 +86,19 @@
             holder.duration = aDuration;
             holder.nav = aNav;
             holder.nav.delegate = [ASFSharedViewTransition shared];
-            
+
             found = true;
             break;
         }
     }
-    
+
     if (!found) {
         ParamsHolder *holder = [[ParamsHolder alloc] init];
         holder.fromVCClass = aFromVCClass;
         holder.toVCClass = aToVCClass;
         holder.duration = aDuration;
         holder.nav = aNav;
-        
+
         holder.nav.delegate = [ASFSharedViewTransition shared];
         [[[ASFSharedViewTransition shared] arrParamHolders] addObject:holder];
     }
@@ -110,7 +110,7 @@
                                   animationControllerForOperation:(UINavigationControllerOperation)operation
                                                fromViewController:(UIViewController *)fromVC
                                                  toViewController:(UIViewController *)toVC {
-    
+
     ParamsHolder *pHolder = [self paramHolderForFromVC:fromVC ToVC:toVC reversed:nil];
     if (pHolder) {
         return [ASFSharedViewTransition shared];
@@ -128,39 +128,40 @@
         (UIViewController<ASFSharedViewTransitionDataSource> *) [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController<ASFSharedViewTransitionDataSource> *toVC   =
         (UIViewController<ASFSharedViewTransitionDataSource> *) [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
+
     BOOL reversed = false;
     ParamsHolder *pHolder = [self paramHolderForFromVC:fromVC ToVC:toVC reversed:&reversed];
-    
+
     if (!pHolder) {
         return;
     }
-    
+
     UIView *fromView = [fromVC sharedView];
     UIView *toView = [toVC sharedView];
-    
+
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval dur = [self transitionDuration:transitionContext];
-    
+
     // Take Snapshot of fomView
     UIView *snapshotView = [fromView snapshotViewAfterScreenUpdates:NO];
     snapshotView.frame = [containerView convertRect:fromView.frame fromView:fromView.superview];
     fromView.hidden = YES;
-    
+
     // Setup the initial view states
     toVC.view.frame = [transitionContext finalFrameForViewController:toVC];
-    
+
     if (!reversed) {
         toVC.view.alpha = 0;
         toView.hidden = YES;
         [containerView addSubview:toVC.view];
     }
     else {
+        toVC.sharedView.alpha = 0;
         [containerView insertSubview:toVC.view belowSubview:fromVC.view];
     }
-    
+
     [containerView addSubview:snapshotView];
-    
+
     [UIView animateWithDuration:dur animations:^{
         if (!reversed) {
             toVC.view.alpha = 1.0; // Fade in
@@ -168,16 +169,17 @@
         else {
             fromVC.view.alpha = 0.0; // Fade out
         }
-        
+
         // Move the SnapshotView
         snapshotView.frame = [containerView convertRect:toView.frame fromView:toView.superview];
-        
+
     } completion:^(BOOL finished) {
         // Clean up
+        toVC.sharedView.alpha = 1;
         toView.hidden = NO;
         fromView.hidden = NO;
         [snapshotView removeFromSuperview];
-        
+
         // Declare that we've finished
         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
     }];
@@ -187,9 +189,9 @@
 {
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC   = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
+
     ParamsHolder *pHolder = [self paramHolderForFromVC:fromVC ToVC:toVC reversed:nil];
-    
+
     if (pHolder) {
         return pHolder.duration;
     }
