@@ -11,6 +11,13 @@
 @protocol ASFSharedViewTransitionDataSource <NSObject>
 
 - (UIView *)sharedView;
+@optional
+- (void) animateAppear;
+- (void) animateDisappear;
+- (void) animateInStart;
+- (void) animateInDone;
+- (void) animateOutStart;
+- (void) animateOutDone;
 
 @end
 

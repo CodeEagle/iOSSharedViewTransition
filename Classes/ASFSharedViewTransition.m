@@ -154,14 +154,22 @@
         toVC.view.alpha = 0;
         toView.hidden = YES;
         [containerView addSubview:toVC.view];
+        
     }
     else {
         toVC.sharedView.alpha = 0;
         [containerView insertSubview:toVC.view belowSubview:fromVC.view];
+        
     }
 
     [containerView addSubview:snapshotView];
-
+    
+    if ([toVC respondsToSelector:@selector(animateInStart)]) {
+        [toVC animateInStart];
+    }
+    if ([fromVC respondsToSelector:@selector(animateOutStart)]) {
+        [fromVC animateOutStart];
+    }
     [UIView animateWithDuration:dur animations:^{
         if (!reversed) {
             toVC.view.alpha = 1.0; // Fade in
@@ -179,7 +187,14 @@
         toView.hidden = NO;
         fromView.hidden = NO;
         [snapshotView removeFromSuperview];
-
+        if ([toVC respondsToSelector:@selector(animateInDone)]) {
+            [toVC animateInDone];
+        }
+        if ([fromVC respondsToSelector:@selector(animateOutDone)]) {
+            [fromVC animateOutDone];
+        }
+        
+        
         // Declare that we've finished
         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
     }];
