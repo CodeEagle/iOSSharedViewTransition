@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "iOSSharedViewTransition"
-  s.version      = "1.0.3.1"
+  s.version      = "1.0.4"
   s.summary      = "iOS 7 based transition library for View Controllers having a Common View"
   s.description  = <<-DESC
                    An iOS 7 based transition library for View Controllers having a Common View.
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "7.0"
 
-  s.source       = { :git => "https://github.com/asifmujteba/iOSSharedViewTransition.git", :tag => "1.0.3.1" }
+  s.source       = { :git => "https://github.com/asifmujteba/iOSSharedViewTransition.git", :tag => "1.0.4" }
 
   s.source_files  = "Classes", "*.{h,m}"
 
