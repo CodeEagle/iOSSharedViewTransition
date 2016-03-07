@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
 
-  s.name         = "iOSSharedViewTransition"
+  s.name         = "iOSSharedViewTransition_CodeEagle"
   s.version      = "1.0.4"
-  s.summary      = "iOS 7 based transition library for View Controllers having a Common View"
+  s.summary      = "iOS 7 based transition library for View Controllers having a Common View. CodeEagle Modified version"
   s.description  = <<-DESC
                    An iOS 7 based transition library for View Controllers having a Common View.
                    DESC
 
-  s.homepage     = "https://github.com/asifmujteba/iOSSharedViewTransition"
+  s.homepage     = "https://github.com/CodeEagle/iOSSharedViewTransition"
   s.screenshots  = "https://raw.githubusercontent.com/asifmujteba/iOSSharedViewTransition/master/sample.gif"
 
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "7.0"
 
-  s.source       = { :git => "https://github.com/asifmujteba/iOSSharedViewTransition.git", :tag => "1.0.4" }
+  s.source       = { :git => "https://github.com/CodeEagle/iOSSharedViewTransition.git", :tag => "1.0.4" }
 
   s.source_files  = "Classes", "*.{h,m}"
 
